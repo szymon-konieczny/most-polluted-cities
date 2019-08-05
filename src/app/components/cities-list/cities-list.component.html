@@ -1,0 +1,18 @@
+<form #countryForm="ngForm">
+  <mat-form-field>
+    <input name="selectedCountryName" matInput ngModel [matAutocomplete]="auto">
+  </mat-form-field>
+
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let country of countriesList" [value]="country?.name">{{ country?.name }}</mat-option>
+  </mat-autocomplete>
+</form>
+
+<div *ngIf="(measurements$ | async) as measurements">
+  <mat-accordion>
+    <app-city-data
+      *ngFor="let measurement of measurements"
+      [measurement]="measurement">
+    </app-city-data>
+  </mat-accordion>
+</div>
