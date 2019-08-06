@@ -16,6 +16,7 @@ export class HttpService {
   }
 
   public createWikipediaApiUrl(path: string): string {
-    return `${wikipediaApiUrl}/${path}`;
+    // console.log('wiki path: ', wikipediaApiUrl + path);
+    return `${wikipediaApiUrl}${path}`;
   }
 }

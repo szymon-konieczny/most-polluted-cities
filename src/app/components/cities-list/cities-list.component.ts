@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 
 import { removeDuplicates } from '../../helpers/helpers';
 import { countries, DEFAULT_CITIES_LIMIT } from '../../constants';
@@ -44,6 +44,7 @@ export class CitiesListComponent implements OnInit, OnDestroy {
       filter(response => !!response),
       map(measurements => removeDuplicates(measurements.results, (measurement: IMeasurement) => measurement.city)),
       map(measurements => measurements.slice(0, DEFAULT_CITIES_LIMIT)),
+      tap(measurements => measurements.forEach(measurement => this.requestsHttpService.getCityData(measurement.city))),
       takeUntil(this.destroy$),
     );
   }
