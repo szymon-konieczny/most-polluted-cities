@@ -1,15 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges, SimpleChange, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-import { filter, map, tap, startWith, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 
 import { removeDuplicates } from '../../helpers/helpers';
-import { countries } from '../../constants/countries';
-import { RequestsHttpService } from '../../services/requests-http.service';
+import { countries, DEFAULT_CITIES_LIMIT } from '../../constants';
+import { RequestsHttpService, StorageService } from '../../services';
 import { IMeasurement } from '../../interfaces/interfaces';
-import { DEFAULT_CITIES_LIMIT } from '../../constants/requests';
-import { NgForm } from '@angular/forms';
-import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-cities-list',
@@ -17,12 +14,11 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./cities-list.component.scss']
 })
 export class CitiesListComponent implements OnInit, OnDestroy {
-  @ViewChild('countryForm', null) public countryForm: NgForm;
-
   private destroy$ = new Subject<void>();
 
   public countriesList = countries;
   public measurements$: Observable<IMeasurement[]>;
+  public countryName: string;
 
   constructor(
     private requestsHttpService: RequestsHttpService,
@@ -31,18 +27,11 @@ export class CitiesListComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     const code = this.storageService.fetchFromLocalStorage();
-    this.measurements$ = this.getMeasurements(code);
 
-    this.countryForm.form.valueChanges.pipe(
-      map(data => data.selectedCountryName),
-      filter(countryName => !!countryName),
-      tap(countryName => {
-        const countryCode = this.getSelectedCountryCode(countryName);
-        this.measurements$ = this.getMeasurements(countryCode);
-        this.storageService.saveToLocalStorage(countryCode);
-      }),
-      takeUntil(this.destroy$),
-    ).subscribe();
+    if (code) {
+      this.measurements$ = this.getMeasurements(code);
+      this.countryName = this.getCountryParamValue(code, 'code', 'name');
+    }
   }
 
   public ngOnDestroy(): void {
@@ -59,13 +48,18 @@ export class CitiesListComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getSelectedCountryCode(countryName: string) {
-    if (!this.countriesList || !countryName) {
+  private getCountryParamValue(value: string, filterParam: string, paramName: string): string {
+    if (!this.countriesList || !value || !filterParam || !paramName) {
       return;
     }
 
-    const country = this.countriesList.find(countryData => countryData.name === countryName);
-    return country.code;
+    const country = this.countriesList.find(countryData => countryData[filterParam] === value);
+    return country[paramName];
   }
 
+  public onCountryChange(countryName: string): void {
+    const countryCode = this.getCountryParamValue(countryName, 'name', 'code');
+    this.measurements$ = this.getMeasurements(countryCode);
+    this.storageService.saveToLocalStorage(countryCode);
+  }
 }

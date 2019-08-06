@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { HttpService } from './services/http.service';
 import { CitiesListComponent } from './components/cities-list/cities-list.component';
 import { CityDataComponent } from './components/city-data/city-data.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 const materialModules = [
@@ -26,6 +26,7 @@ const materialModules = [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ...materialModules,
   ],
