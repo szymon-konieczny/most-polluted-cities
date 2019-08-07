@@ -1,19 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ICity, IMeasurement } from 'src/app/interfaces/interfaces';
+import { IMeasurement } from '../../interfaces/interfaces';
+import { NO_DATA } from '../../constants';
 
 @Component({
   selector: 'app-city-data',
   templateUrl: './city-data.component.html',
   styleUrls: ['./city-data.component.scss']
 })
-export class CityDataComponent implements OnInit {
+export class CityDataComponent {
   @Input() public measurement: IMeasurement;
 
-  constructor() { }
-
-  public ngOnInit() {
-    // console.log('City: ', this.measurement.city);
-  }
-
+  public noData = NO_DATA;
 }

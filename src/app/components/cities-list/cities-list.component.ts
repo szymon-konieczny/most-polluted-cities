@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { removeDuplicates } from '../../helpers/helpers';
 import { countries, DEFAULT_CITIES_LIMIT } from '../../constants';
@@ -13,11 +13,10 @@ import { IMeasurement } from '../../interfaces/interfaces';
   templateUrl: './cities-list.component.html',
   styleUrls: ['./cities-list.component.scss']
 })
-export class CitiesListComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
-
+export class CitiesListComponent implements OnInit {
   public countriesList = countries;
   public measurements$: Observable<IMeasurement[]>;
+  public measurements: any[];
   public countryName: string;
 
   constructor(
@@ -34,18 +33,29 @@ export class CitiesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private getMeasurements(countryCode: string): Observable<IMeasurement[]> {
     return this.requestsHttpService.getMeasurements(countryCode).pipe(
       filter(response => !!response),
       map(measurements => removeDuplicates(measurements.results, (measurement: IMeasurement) => measurement.city)),
       map(measurements => measurements.slice(0, DEFAULT_CITIES_LIMIT)),
-      tap(measurements => measurements.forEach(measurement => this.requestsHttpService.getCityData(measurement.city))),
-      takeUntil(this.destroy$),
+      switchMap(measurements => {
+        const observables = measurements.map(measurement => this.getCityData(measurement).pipe(
+          map(cityData => ({ ...measurement, cityData })),
+        ));
+
+        return forkJoin(observables);
+      }),
+    );
+  }
+
+  private getCityData(measurementData: IMeasurement): Observable<any> {
+    return this.requestsHttpService.getCityData(measurementData.city).pipe(
+      filter(data => !!data),
+      map(data => {
+        const pageId = Object.keys(data.query.pages)[0];
+        const page = data.query.pages[pageId];
+        return page.extract;
+      }),
     );
   }
 
@@ -55,6 +65,11 @@ export class CitiesListComponent implements OnInit, OnDestroy {
     }
 
     const country = this.countriesList.find(countryData => countryData[filterParam] === value);
+
+    if (!country) {
+      return;
+    }
+
     return country[paramName];
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
+
 import { aqApiUrl, wikipediaApiUrl } from '../constants/requests';
 
 @Injectable({
@@ -16,7 +17,6 @@ export class HttpService {
   }
 
   public createWikipediaApiUrl(path: string): string {
-    // console.log('wiki path: ', wikipediaApiUrl + path);
     return `${wikipediaApiUrl}${path}`;
   }
 }

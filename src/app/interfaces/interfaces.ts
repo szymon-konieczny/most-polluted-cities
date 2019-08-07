@@ -38,6 +38,27 @@ export interface IAqRes {
   results: ICity[]|IParameter[];
 }
 
+export interface IPageData {
+  extract: string;
+  nas: number;
+  pageId: number;
+  title: string;
+}
+
+export interface IPage {
+  [key: number]: IPageData;
+}
+
+export interface IPages {
+  pages: IPage;
+}
+
+export interface IWikiRes {
+  batchcomplete: string;
+  query: IPages;
+  warnings: { [key: string]: string };
+}
+
 export interface IDate {
   utc: string;
   local: string;
@@ -70,4 +91,5 @@ export interface IMeasurement {
   averagingPeriod: IAveragingPeriod;
   coordinates: ICoordinates;
   attribution: IAttribution[];
+  cityData?: string;
 }

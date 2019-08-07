@@ -1,0 +1,41 @@
+.city {
+  width: 100%;
+  margin: 0 20px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+
+  &__name {
+    margin: 0 20px 0 0;
+  }
+
+  &__pollution {
+    width: 140px;
+    font-size: .8rem;
+    color: rgba(22, 22, 22, .5);
+  }
+}
+
+.value {
+  font-size: .9rem;
+  color: rgba(22, 22, 22, .9);
+}
+
+.unit {
+  margin: 0 0 0 5px;
+}
+
+.city-info {
+  max-height: 270px;
+  margin: 0;
+  padding: 0;
+  text-align: justify;
+
+  &_paragraph {
+    margin: 0;
+    padding: 0 22px 0 0;
+    font-size: .8rem;
+    line-height: 1.2;
+  }
+}

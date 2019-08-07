@@ -1,8 +1,13 @@
 <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <h4>{{ measurement?.city }} | {{ measurement?.parameter }}: {{ measurement?.value }} {{ measurement?.unit }}</h4>
-    </mat-expansion-panel-header>
-
-    This the expansion 1 content
-
-  </mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <div class="city">
+      <div class="city__name">{{ measurement?.city }}</div>
+      <div class="city__pollution">{{ measurement?.parameter }}: 
+        <span class="value">{{ measurement?.value }}</span> 
+        <span class="unit">{{ measurement?.unit }}</span></div>
+    </div>
+  </mat-expansion-panel-header>
+  <perfect-scrollbar class="city-info">
+    <div class="city-info_paragraph" [innerHtml]="this.measurement.cityData || noData | sanitizeHtml"></div>
+  </perfect-scrollbar>
+</mat-expansion-panel>

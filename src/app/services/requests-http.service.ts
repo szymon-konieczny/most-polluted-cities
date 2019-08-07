@@ -4,20 +4,19 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { HttpService } from './http.service';
-import { IAqRes } from '../interfaces/interfaces';
+import { IAqRes, IWikiRes } from '../interfaces';
 import {
   DEFAULT_CITIES_FETCH_LIMIT,
   DEFAULT_COUNTRY_CODE,
   DEFAULT_SORT_TYPE,
   DEFAULT_ORDER_BY,
   DEFAULT_PARAMETER,
-} from '../constants/requests';
+} from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestsHttpService {
-
   private DEFAULT_CONFIG_VALUES = {
     countryCode: DEFAULT_COUNTRY_CODE,
     order_by: DEFAULT_ORDER_BY,
@@ -41,14 +40,9 @@ export class RequestsHttpService {
     );
   }
 
-  public getCityData(cityName: string): Observable<IAqRes> {
+  public getCityData(cityName: string): Observable<IWikiRes> {
     const splittedName = cityName.split('/');
-    const name = splittedName.length > 1 ? splittedName[1] : splittedName[0];
-    console.log(cityName);
-    return this.http.get<IAqRes>(
-      this.httpService.createWikipediaApiUrl(
-        `?format=json&action=query&srsearch=${name.replace(/\s/g, '+')}`,
-      ),
-    );
+    const name = splittedName[0];
+    return this.http.get<IWikiRes>(this.httpService.createWikipediaApiUrl(`${name.replace(/\s+/g, '+')}`));
   }
 }
