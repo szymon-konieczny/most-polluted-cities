@@ -9,23 +9,32 @@
             [(ngModel)]="countryName"
             [ngModelOptions]="{standalone: true}"
             [matAutocomplete]="auto"
-            #selectedCountry>
+            #countryInput>
             <div *ngIf="!measurements">
               <mat-progress-spinner
                 class="spinner" 
-                *ngIf="selectedCountry.value && !(measurements$ | async)" 
+                *ngIf="countryInput.value && !(measurements$ | async)" 
                 mode="indeterminate"
                 [diameter]="18"></mat-progress-spinner>
             </div>
         </div>
       </mat-form-field>
-      <mat-autocomplete #auto="matAutocomplete">
+
+      <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+        <mat-option
+          *ngFor="let country of filteredCountries | async" 
+          [value]="country">
+          {{ country }}
+        </mat-option>
+      </mat-autocomplete>
+
+      <!-- <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
         <mat-option
           *ngFor="let country of countriesList" 
           [value]="country?.name">
           {{ country?.name }}
         </mat-option>
-      </mat-autocomplete>
+      </mat-autocomplete> -->
     </form>
     <div *ngIf="(measurements$ | async) as measurements">
       <mat-accordion>
