@@ -1,5 +1,6 @@
 .wrapper {
   max-width: 1000px;
+  color: rgba(255, 255, 255, .7);
 }
 
 .input-wrapper {
@@ -38,7 +39,7 @@
     top: 0;
     right: 0;
     height: 40px;
-    border-right: 2px solid rgba(22, 22, 22, .4);
+    border-right: 2px solid rgba(255, 255, 255, .9);
     transform: translate(-19px, -1px);
   }
 
@@ -48,7 +49,7 @@
     top: 0;
     right: 0;
     width: 40px;
-    border-bottom: 2px solid rgba(22, 22, 22, .4);
+    border-bottom: 2px solid rgba(255, 255, 255, .9);
     transform: translate(1px, 19px);
   }
 }
