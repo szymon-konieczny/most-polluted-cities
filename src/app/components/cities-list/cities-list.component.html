@@ -1,40 +1,37 @@
 <section class="wrapper">
-  <form #countryForm="ngForm">
+  <form [formGroup]="countryForm">
       <mat-form-field>
         <div class="input-wrapper">
           <input
+            #countryInput
             matInput
-            placeholder="Choose country"
-            (ngModelChange)="onCountryChange($event)"
-            [(ngModel)]="countryName"
-            [ngModelOptions]="{standalone: true}"
-            [matAutocomplete]="auto"
-            #countryInput>
+            placeholder="Country"
+            formControlName="countryName"
+            matAutosize="true"
+            [matAutocomplete]="auto">
             <div *ngIf="!measurements">
+              <button
+                class="clear-button"
+                (click)="clearInput()"></button>
               <mat-progress-spinner
-                class="spinner" 
                 *ngIf="countryInput.value && !(measurements$ | async)" 
+                class="spinner" 
                 mode="indeterminate"
-                [diameter]="18"></mat-progress-spinner>
+                [strokeWidth]="2"
+                [diameter]="42"></mat-progress-spinner>
             </div>
         </div>
       </mat-form-field>
-
-      <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+      <mat-autocomplete 
+        #auto="matAutocomplete"
+        autoActiveFirstOption
+        (optionSelected)="onCountryChange($event)">
         <mat-option
-          *ngFor="let country of filteredCountries | async" 
+          *ngFor="let country of filteredCountries$ | async"
           [value]="country">
           {{ country }}
         </mat-option>
       </mat-autocomplete>
-
-      <!-- <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-        <mat-option
-          *ngFor="let country of countriesList" 
-          [value]="country?.name">
-          {{ country?.name }}
-        </mat-option>
-      </mat-autocomplete> -->
     </form>
     <div *ngIf="(measurements$ | async) as measurements">
       <mat-accordion>

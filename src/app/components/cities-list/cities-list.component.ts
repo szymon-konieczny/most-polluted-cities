@@ -1,60 +1,58 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 import { Observable, forkJoin } from 'rxjs';
-import { filter, map, switchMap, startWith, tap } from 'rxjs/operators';
+import { filter, map, switchMap, startWith } from 'rxjs/operators';
 
 import { removeDuplicates } from '../../helpers/helpers';
 import { countries, DEFAULT_CITIES_LIMIT } from '../../constants';
 import { RequestsHttpService, StorageService } from '../../services';
 import { IMeasurement } from '../../interfaces/interfaces';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-cities-list',
   templateUrl: './cities-list.component.html',
   styleUrls: ['./cities-list.component.scss']
 })
-export class CitiesListComponent implements OnInit, AfterViewInit {
-  @ViewChild('countryForm', { static: false }) public countryForm: NgForm;
-
+export class CitiesListComponent implements OnInit {
+  public countryForm: FormGroup;
   public countriesList = countries;
   public measurements$: Observable<IMeasurement[]>;
   public measurements: any[];
   public countryName: string;
   public countriesNames: string[];
-  public filteredCountries: Observable<string[]>;
+  public filteredCountries$: Observable<string[]>;
 
   constructor(
     private requestsHttpService: RequestsHttpService,
     private storageService: StorageService,
+    private fb: FormBuilder,
   ) {}
+
+  get country(): FormGroup {
+    return this.countryForm.get('countryName') as FormGroup;
+  }
 
   public ngOnInit() {
     const code = this.storageService.fetchFromLocalStorage();
-    this.countriesNames = this.countriesList.map(country => country.name);
 
-    // this.filteredCountries = this.countryForm.valueChanges.pipe(
-    //   startWith(''),
-    //   tap(data => console.log('D: ', data)),
-    //   map(value => this.filter(value)),
-    // );
+    this.countryForm = this.createForm();
+    this.countriesNames = this.countriesList.map(country => country.name);
+    this.filteredCountries$ = this.country.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filter(value)),
+    );
 
     if (code) {
       this.measurements$ = this.getMeasurements(code);
       this.countryName = this.getCountryParamValue(code, 'code', 'name');
+      this.countryForm.setValue({ countryName: this.countryName });
     }
   }
 
-  public ngAfterViewInit() {
-    if (!this.countryForm.touched) {
-      return;
-    }
-
-    this.filteredCountries = this.countryForm.valueChanges.pipe(
-      startWith(''),
-      tap(data => console.log('D: ', data)),
-      map(value => this.filter(value)),
-    );
+  private createForm(): FormGroup {
+    return this.fb.group({ countryName: [''] });
   }
 
   private filter(value: string): string[] {
@@ -102,12 +100,14 @@ export class CitiesListComponent implements OnInit, AfterViewInit {
     return country[paramName];
   }
 
-  private matchCountryName(value: string) {
+  private matchCountryName(value: string): boolean {
     return !!this.countriesList.some(country => country.name.toLowerCase() === value.toLowerCase());
   }
 
-  public onCountryChange(countryName: string): void {
-    if (!this.matchCountryName(countryName)) {
+  public onCountryChange(select: MatAutocompleteSelectedEvent): void {
+    const countryName = select.option.value;
+
+    if (!countryName || !this.matchCountryName(countryName)) {
       return;
     }
 
@@ -115,5 +115,9 @@ export class CitiesListComponent implements OnInit, AfterViewInit {
     const countryCode = this.getCountryParamValue(name, 'name', 'code');
     this.measurements$ = this.getMeasurements(countryCode);
     this.storageService.saveToLocalStorage(countryCode);
+  }
+
+  public clearInput(): void {
+    this.countryForm.setValue({ countryName: '' });
   }
 }

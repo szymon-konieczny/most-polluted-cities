@@ -1,0 +1,29 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.wrapper {
+  .mat-expansion-panel-body {
+    padding: 0 10px 16px 16px !important;
+  }
+  
+  .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 5px 0 !important;
+  }
+  
+  .mat-form-field-label-wrapper {
+    top: -.84375em;
+    padding-top: .84375em;
+    font-size: 3rem !important;
+  }
+
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding: 0;
+  }
+
+  .mat-form-field-underline {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+}
