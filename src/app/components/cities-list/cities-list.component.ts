@@ -1,14 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 import { Observable, forkJoin } from 'rxjs';
 import { filter, map, switchMap, startWith } from 'rxjs/operators';
 
 import { removeDuplicates } from '../../helpers/helpers';
-import { countries, DEFAULT_CITIES_LIMIT } from '../../constants';
+import {
+  countries,
+  DEFAULT_CITIES_LIMIT,
+  Messages,
+} from '../../constants';
 import { RequestsHttpService, StorageService } from '../../services';
 import { IMeasurement } from '../../interfaces/interfaces';
+
+function countryNameValidator(control: AbstractControl): ValidationErrors | null {
+  const countryName = control.value.toLowerCase();
+
+  if (countryName !== '' && countryName !== null && countryName !== undefined) {
+    const isCountryAllowed = countries.some(country => country.name.toLowerCase().includes(countryName));
+
+    if (isCountryAllowed) { return null; }
+
+    return { nameMatch: true };
+  }
+
+  return null;
+}
 
 @Component({
   selector: 'app-cities-list',
@@ -18,6 +36,7 @@ import { IMeasurement } from '../../interfaces/interfaces';
 export class CitiesListComponent implements OnInit {
   public countryForm: FormGroup;
   public countriesList = countries;
+  public MESSAGES = Messages;
   public measurements$: Observable<IMeasurement[]>;
   public measurements: any[];
   public countryName: string;
@@ -30,8 +49,12 @@ export class CitiesListComponent implements OnInit {
     private fb: FormBuilder,
   ) {}
 
-  get country(): FormGroup {
+  public get country(): FormGroup {
     return this.countryForm.get('countryName') as FormGroup;
+  }
+
+  public hasCountryFieldError(): boolean {
+    return this.country.getError('nameMatch');
   }
 
   public ngOnInit() {
@@ -52,7 +75,7 @@ export class CitiesListComponent implements OnInit {
   }
 
   private createForm(): FormGroup {
-    return this.fb.group({ countryName: [''] });
+    return this.fb.group({ countryName: ['', countryNameValidator] });
   }
 
   private filter(value: string): string[] {

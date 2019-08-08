@@ -46,9 +46,14 @@
 
   .mat-input-element {
     caret-color: rgba(25, 25, 25, .7);
+    z-index: 9997;
   }
 
   .mat-form-field.mat-focused .mat-form-field-ripple {
     background-color: rgba(25, 25, 25, .7);
+  }
+
+  .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: rgba(25, 25, 25, .3);
   }
 }
