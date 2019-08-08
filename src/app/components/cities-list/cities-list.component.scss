@@ -1,6 +1,6 @@
 .wrapper {
-  max-width: 1000px;
-  color: rgba(255, 255, 255, .7);
+  width: 1000px;
+  color: rgba(25, 25, 25, .7);
 }
 
 .input-wrapper {
@@ -10,10 +10,11 @@
 }
 
 .mat-form-field {
-  font-size: 4rem;
-  line-height: 1.125;
+  font-size: 2rem;
+  line-height: 1.5;
   width: 100%;
   margin: 0 0 10px 0;
+  padding: 0 0 5px 0;
 }
 
 .button-wrapper {
@@ -24,13 +25,14 @@
 }
 
 .clear-button {
-  width: 40px;
-  height: 40px;
-  margin: 0 10px 0 0;
+  width: 30px;
+  height: 30px;
   background: transparent;
   border: none;
   cursor: pointer;
-  position: relative;
+  position: absolute;
+  top: 8px;
+  right: 5px;
   transform: rotate(-45deg);
 
   &::before {
@@ -38,9 +40,9 @@
     position: absolute;
     top: 0;
     right: 0;
-    height: 40px;
-    border-right: 2px solid rgba(255, 255, 255, .9);
-    transform: translate(-19px, -1px);
+    height: 100%;
+    border-right: 2px solid rgba(25, 25, 25, .7);;
+    transform: translate(-14px, 0);
   }
 
   &::after {
@@ -48,14 +50,14 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 40px;
-    border-bottom: 2px solid rgba(255, 255, 255, .9);
-    transform: translate(1px, 19px);
+    width: 100%;
+    border-bottom: 2px solid rgba(25, 25, 25, .7);;
+    transform: translate(0, 13px);
   }
 }
 
 .spinner {
   position: absolute;
-  top: 22px;
-  right: 9px;
+  top: 7px;
+  right: 4px;
 }

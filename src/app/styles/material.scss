@@ -6,13 +6,13 @@
   }
   
   .mat-form-field-appearance-legacy .mat-form-field-infix {
-    padding: 5px 0 !important;
+    padding: 0 !important;
   }
   
   .mat-form-field-label-wrapper {
     top: -.84375em;
     padding-top: .84375em;
-    font-size: 3rem !important;
+    font-size: 1.5rem !important;
   }
 
   .mat-form-field-appearance-legacy .mat-form-field-wrapper {
@@ -28,28 +28,27 @@
   }
 
   .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: rgb(255, 255, 255);
+    stroke: rgba(25, 25, 25, .7);
   }
 
   .mat-form-field-appearance-legacy .mat-form-field-underline {
-    background-color: rgba(255, 255, 255, .42);
+    background-color: rgba(25, 25, 25, .42);
     height: 2px;
   }
 
   .mat-form-field-label {
-    color:rgba(255, 255, 255, .3);
+    color:rgba(25, 25, 25, .3);
   }
 
   .mat-form-field.mat-focused .mat-form-field-label {
-    color:rgba(255, 255, 255, .7);
+    color:rgba(25, 25, 25, .7);
   }
 
   .mat-input-element {
-    caret-color: rgba(255, 255, 255, .7);
+    caret-color: rgba(25, 25, 25, .7);
   }
 
   .mat-form-field.mat-focused .mat-form-field-ripple {
-    background-color: rgba(255, 255, 255, .7);
+    background-color: rgba(25, 25, 25, .7);
   }
-  
 }
