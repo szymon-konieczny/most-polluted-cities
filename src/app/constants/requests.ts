@@ -1,5 +1,5 @@
-export const aqApiUrl = 'https://api.openaq.org/v1';
-export const wikipediaApiUrl = 'https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&prop=extracts&titles=';
+export const AQ_API_URL = 'https://api.openaq.org/v1';
+export const WIKIPEDIA_API_URL = 'https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&prop=extracts&titles=';
 export const DEFAULT_CITIES_FETCH_LIMIT = 200;
 export const DEFAULT_CITIES_LIMIT = 10;
 export const DEFAULT_PARAMETER  = 'pm25';

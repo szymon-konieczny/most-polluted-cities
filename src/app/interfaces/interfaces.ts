@@ -19,23 +19,9 @@ export interface IMeta {
   websitte: string;
 }
 
-export interface ICity {
-  city: string;
-  country: string;
-  count: number;
-  locations: number;
-}
-
-export interface IParameter {
-  id: string;
-  name: string;
-  description: string;
-  preferredUnit: string;
-}
-
-export interface IAqRes {
+export interface IAqApiRes {
   meta: IMeta;
-  results: ICity[]|IParameter[];
+  results: IMeasurement[];
 }
 
 export interface IPageData {

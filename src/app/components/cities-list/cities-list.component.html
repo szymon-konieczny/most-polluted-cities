@@ -5,28 +5,31 @@
         <input
           #countryInput
           matInput
-          placeholder="Country"
+          placeholder="Country name"
           formControlName="countryName"
-          matAutosize="true"
           [matAutocomplete]="auto">
           <div *ngIf="!measurements">
             <button
+              type="button"
+              *ngIf="countryInput.value && (measurements$ | async)"
               class="clear-button"
-              (click)="clearInput()"></button>
+              (click)="onCancel()"></button>
             <mat-progress-spinner
               *ngIf="countryInput.value && !(measurements$ | async)"
               class="spinner" 
               mode="indeterminate"
               color="white"
               [strokeWidth]="2"
-              [diameter]="32"></mat-progress-spinner>
+              [diameter]="22"></mat-progress-spinner>
           </div>
       </div>
-      <mat-error class="error-message" *ngIf="hasCountryFieldError">{{ MESSAGES.INVALID_COUNTRY_NAME }}</mat-error>
+      <mat-hint class="hint-message" *ngIf="!countryInput.value">{{ messages.NO_COUNTRY_NAME }}</mat-hint>
+      <mat-error class="error-message" *ngIf="hasCountryFieldError">{{ messages.INVALID_COUNTRY_NAME }}</mat-error>
     </mat-form-field>
     <mat-autocomplete 
       #auto="matAutocomplete"
       autoActiveFirstOption
+      (showPanel)="!countryInput.value"
       (optionSelected)="onCountryChange($event)">
       <mat-option
         *ngFor="let country of filteredCountries$ | async"

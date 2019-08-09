@@ -1,6 +1,8 @@
+@import '../../styles/variables.scss';
+
 .wrapper {
   width: 1000px;
-  color: rgba(25, 25, 25, .7);
+  color: $gray-a-70;
 }
 
 .form {
@@ -14,7 +16,7 @@
 }
 
 .mat-form-field {
-  font-size: 2rem;
+  font-size: 1.3rem;
   line-height: 1.5;
   width: 100%;
   margin: 0 0 10px 0;
@@ -29,16 +31,20 @@
 }
 
 .clear-button {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background: transparent;
   border: none;
   cursor: pointer;
   position: absolute;
-  top: 8px;
+  top: 3px;
   right: 5px;
   transform: rotate(-45deg);
   z-index: 9998;
+
+  &:focus {
+    outline: none;
+  }
 
   &::before {
     content: '';
@@ -46,8 +52,8 @@
     top: 0;
     right: 0;
     height: 100%;
-    border-right: 2px solid rgba(25, 25, 25, .7);;
-    transform: translate(-14px, 0);
+    border-right: 2px solid $gray-a-70;
+    transform: translate(-9px, 0);
   }
 
   &::after {
@@ -56,19 +62,32 @@
     top: 0;
     right: 0;
     width: 100%;
-    border-bottom: 2px solid rgba(25, 25, 25, .7);;
-    transform: translate(0, 13px);
+    border-bottom: 2px solid $gray-a-70;
+    transform: translate(0, 8px);
   }
 }
 
 .spinner {
   position: absolute;
-  top: 7px;
-  right: 4px;
+  top: 2px;
+  right: 5px;
   z-index: 9999;
 }
 
+.hint-message,
 .error-message {
   font-size: 1rem;
-  margin: 30px 0 0 5px;
+  margin: 22px 0 0 0;
+}
+
+.hint-message {
+  color: $gray-a-30;
+  font-weight: 600;
+}
+
+@media only screen and (max-width : 1000px) {
+  .wrapper {
+    width: 100vw;
+    padding: 0 20px;
+  }
 }

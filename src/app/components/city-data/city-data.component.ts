@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { IMeasurement } from '../../interfaces/interfaces';
+import { IMeasurement } from '../../interfaces';
 import { NO_DATA } from '../../constants';
 
 @Component({

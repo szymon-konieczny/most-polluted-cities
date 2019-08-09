@@ -1,8 +1,8 @@
-export function removeDuplicates(collection: any[], getIdentifier: any) {
+export function removeDuplicates<T>(collection: T[], getIdentifier: (data: T) => string): T[] {
   const identifierState = {};
 
   return collection.filter(value => {
-    const identifier = JSON.stringify(getIdentifier(value));
+    const identifier: string = JSON.stringify(getIdentifier(value));
 
     if (identifierState[identifier]) {
       return false;

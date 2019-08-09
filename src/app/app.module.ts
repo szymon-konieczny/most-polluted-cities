@@ -4,16 +4,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as MAT_MODULES from '@angular/material';
-
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { AppComponent } from './app.component';
-import { HttpService } from './services/http.service';
+import { HttpService } from './services';
 import { CitiesListComponent } from './components/cities-list/cities-list.component';
 import { CityDataComponent } from './components/city-data/city-data.component';
-import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
+import { SanitizeHtmlPipe } from './pipes';
 
 const materialModules = [
   MAT_MODULES.MatInputModule,

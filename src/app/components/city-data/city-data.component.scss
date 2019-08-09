@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .city {
   width: 100%;
   margin: 0 20px 0 0;
@@ -15,13 +17,13 @@
   &__pollution {
     width: 140px;
     font-size: .8rem;
-    color: rgba(22, 22, 22, .5);
+    color: $pollution-text-color;
   }
 }
 
 .value {
   font-size: .9rem;
-  color: rgba(22, 22, 22, .9);
+  color: $value-color;
 }
 
 .unit {
@@ -30,23 +32,23 @@
 
 .city-info {
   max-height: 266px;
+  width: 100%;
   margin: 0;
   padding: 0 0 0 8px;
   text-align: justify;
-  box-sizing: border-box;
 
   &_paragraph {
     margin: 0;
-    padding: 0 27px 0 0;
+    padding: 0 20px 0 0;
     font-size: .8rem;
     line-height: 1.5;
   }
 }
 
 .expansion-panel {
-  background: rgba(255, 255, 255, .7);
+  background: $white-a-50;
 
   &:hover {
-    background: rgba(255, 255, 255, .9);
+    background: $white;
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { Observable, throwError } from 'rxjs';
 
-import { aqApiUrl, wikipediaApiUrl } from '../constants/requests';
+import { AQ_API_URL, WIKIPEDIA_API_URL } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +12,10 @@ export class HttpService {
   }
 
   public createOpenAqApiUrl(path: string): string {
-    return `${aqApiUrl}/${path}`;
+    return `${AQ_API_URL}/${path}`;
   }
 
   public createWikipediaApiUrl(path: string): string {
-    return `${wikipediaApiUrl}${path}`;
+    return `${WIKIPEDIA_API_URL}${path}`;
   }
 }

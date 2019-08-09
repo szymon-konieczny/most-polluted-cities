@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 
 import { HttpService } from './http.service';
-import { IAqRes, IWikiRes } from '../interfaces';
+import { IAqApiRes, IWikiRes } from '../interfaces';
 import {
   DEFAULT_CITIES_FETCH_LIMIT,
   DEFAULT_COUNTRY_CODE,
@@ -17,9 +16,9 @@ import {
   providedIn: 'root'
 })
 export class RequestsHttpService {
-  private DEFAULT_CONFIG_VALUES = {
+  private readonly DEFAULT_CONFIG_VALUES = {
     countryCode: DEFAULT_COUNTRY_CODE,
-    order_by: DEFAULT_ORDER_BY,
+    orderBy: DEFAULT_ORDER_BY,
     sortType: DEFAULT_SORT_TYPE,
     limit: DEFAULT_CITIES_FETCH_LIMIT,
     parameter: DEFAULT_PARAMETER,
@@ -30,12 +29,12 @@ export class RequestsHttpService {
     private httpService: HttpService,
   ) {}
 
-  public getMeasurements(countryCode: string, param?: string): Observable<IAqRes> {
-    const { order_by, sortType, limit, parameter } = this.DEFAULT_CONFIG_VALUES;
+  public getMeasurements(countryCode: string, param?: string): Observable<IAqApiRes> {
+    const { orderBy, sortType, limit, parameter } = this.DEFAULT_CONFIG_VALUES;
 
-    return this.http.get<IAqRes>(
+    return this.http.get<IAqApiRes>(
       this.httpService.createOpenAqApiUrl(
-        `measurements?country=${countryCode}&order_by=${order_by}&sort=${sortType}&limit=${limit}&parameter=${param || parameter}`,
+        `measurements?country=${countryCode}&order_by=${orderBy}&sort=${sortType}&limit=${limit}&parameter=${param || parameter}`,
       ),
     );
   }

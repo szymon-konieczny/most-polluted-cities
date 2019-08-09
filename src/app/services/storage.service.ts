@@ -14,13 +14,17 @@ export class StorageService {
     return JSON.parse(data);
   }
 
-  public saveToLocalStorage(countryCode: string) {
+  public saveToLocalStorage(countryCode: string): void {
     const code = this.stringifyData(countryCode);
     localStorage.setItem(this.itemName, code);
   }
 
-  public fetchFromLocalStorage() {
+  public fetchFromLocalStorage(): string {
     const code = localStorage.getItem(this.itemName);
     return this.parseData(code);
+  }
+
+  public clearStorage(): void {
+    localStorage.clear();
   }
 }
